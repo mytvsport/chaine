@@ -1,12 +1,24 @@
 <html>
 <head>
-  <title>Mon flux vidéo en direct</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-  <h1>Mon flux vidéo en direct</h1>
-  <video id="video" controls autoplay>
-    <source src="tv_channels_fr.m3u" type="application/x-mpegURL">
-    Votre navigateur ne supporte pas la lecture de vidéos en direct.
-  </video>
+  <div id="video-container">
+    <video id="video" controls></video>
+  </div>
+  <script>
+    var video = document.getElementById('video');
+    var videoSrc = 'canal+.m3u'; // change this to your video source
+    if (Hls.isSupported()) {
+      var hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = videoSrc;
+    } else {
+      alert('Your browser does not support HLS');
+    }
+  </script>
 </body>
 </html>
